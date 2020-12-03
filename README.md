@@ -10,9 +10,9 @@ Designed By: Andrew Darling
 **Goal:**  
 The goal for creating Silver Mind is to build a Chess AI using reinforcement learning that can beat me 
 (~1025 elo) at chess. A stretch goal is to beat Magnus Carlson at age 18 from the Magnus Carlson app having 
-only trained on games from Garry Kasparov. This would be a great accomplishment because Magnus Carlson beat Kasparov 
-at age 16 in 2004 and has only improved since then so Silver Mind would be required to learn a significant amount 
-beyond its training.
+only trained on games from Garry Kasparov and other GMs. This would be a great accomplishment because Magnus Carlson 
+beat Kasparov at age 16 in 2004 and has only improved since then so Silver Mind would be required to learn a 
+significant amount beyond its training.
 
 **Strategy:**  
 something something deep reinforcement learning something something DQN/PPO policy something something
