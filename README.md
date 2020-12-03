@@ -26,4 +26,4 @@ Run `pip install .` to install all of the required libraries
 
 Silver Mind must be trained with PGN files. PGN stands for Portable Game Notation and is the standard format for saving 
 chess games. They can be downloaded from a variety of places off the internet. Save one file per game to a folder in 
-the project directory called `pgns` then run `examples/train_silvermind.ipynb` to train Silver Mind.
+the project directory called `pgns` then run `examples/train.ipynb` to train Silver Mind.
