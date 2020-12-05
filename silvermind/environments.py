@@ -1,7 +1,11 @@
 
-class ChessEnvironment:
+
+class BaseChessEnvironment:
     pass
 
 
-class FakeChessEnvironment:
+class ChessEnvironment(BaseChessEnvironment):
     pass
+
+
+
