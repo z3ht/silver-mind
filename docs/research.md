@@ -50,7 +50,6 @@ XLNet Python module: `https://huggingface.co/transformers/model_doc/xlnet.html`
 Transformers seem to be good at matching input (such as language) with similarly structured output (such as a different language). I am concerned predicting the best chess move given previous moves (and future moves in the training data) will not fit into this paradigm. Also it looks like XLNet is extremely difficult to train. These two hurdles may prevent the use of XLNet or Attention based models in general.
 
 #### Day 2:
-Yesterday I got pretty distracted with trying to find a good model. Today I'm going to focus more on creating a really basic (shit) model and improving from there. I'm going to use PyTorch and numpy. I'm using games from this chess database http://rebel13.nl/rebel13/rebel%2013.html. I'm not sure if they'll be any good but it has 2.5 million games.
+Yesterday I got pretty distracted with trying to find a good model. Today I'm going to focus more on creating a really basic (shit) model and improving from there. I'm going to use PyTorch and numpy. I'm using games from this chess database https://database.nikonoel.fr/
 
-
-
+I'm going to cheat a bit and look at how George Hotz passes in information to his neural network for Twitch Chess

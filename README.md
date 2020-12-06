@@ -9,10 +9,7 @@ Designed By: Andrew Darling
 
 **Goal:**  
 The goal for creating Silver Mind is to build a Chess AI using reinforcement learning that can beat me 
-(~1025 elo) at chess. A stretch goal is to beat Magnus Carlson at age 18 from the Magnus Carlson app having 
-only trained on games from Garry Kasparov and other GMs. This would be a great accomplishment because Magnus Carlson 
-beat Kasparov at age 16 in 2004 and has only improved since then so Silver Mind would be required to learn a 
-significant amount beyond its training.
+(~1025 elo) at chess. A stretch goal is to beat Magnus Carlson at age 18 from the Magnus Carlson app having only trained on games from Garry Kasparov and other GMs. This would be a great accomplishment because Magnus Carlson beat Kasparov at age 16 in 2004 and has only improved since then so Silver Mind would be required to learn a significant amount beyond its training.
 
 **Strategy:**  
 Develop two algorithms: Silver Mind and Gold Mind. Silver Mind will be built from training data and should know possible moves it has available. Gold Mind should be capable of making any move (even illegal ones) but learn which are possible and more so learn which ones will be strong
@@ -76,14 +73,17 @@ Number of different game states:
 Total: 2 + 2 * 4 + 8 * 8 * 8
 Total: 10 + 8^3
 
+Note: When castling is available, the corner pieces must be rooks so the rook is not a rook but instead a CASTLING rook. Additionally, when an empty square can be reached through en passant, it is no longer an empty square but instead an EN PASSANT empty square.
+
 Silver Mind Assumptions/Advantages:
 	- Provide Silver Mind with possible moves
 	- Provide Silver Mind with LOTS of training data
 
 Training Silver Mind:
 	- Load lots of game data
-	- X = games as list of states (in increasing order?), Y = winner
-	- Incentivize wins and penalize losses
+	- X = board, Y = winner
+	- Get really really good at predicting who wins
+	- Go to location where player is most likely to win
 
 Should I remove games that end in surrender from the training data?
 	- No because if someone is willing to surrender Silver Mind will have great positioning
@@ -96,6 +96,8 @@ Gold Mind:
 	- I assume I will need to develop an understanding of the value of everything on the board
 	- I will want to maximize my position and minimize my opponent's 
 1) Make the best possible moves
+
+**Silver Mind is HEAVILY inspired by Twitch Chess by George Hotz. I would not have been able to complete the AI with such elegance without his work guiding me**
 
 <br>
 ---
