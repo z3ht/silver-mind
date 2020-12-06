@@ -69,7 +69,7 @@ Do I need to store each colors castling availability?
 	- Yes alternating the state depending on whose turn it is seems like a pain and might not be possible
 
 Number of different game states:
-2 (possible turns) + 2 (each color) * (2 (kingside castle availability) + 2 (queenside availability)) * (8 * 8 spots * 8 possible states)
+2 (possible turns) + * (8 * 8 spots * 16 possible states)
 Total: 2 + 2 * 4 + 8 * 8 * 8
 Total: 10 + 8^3
 
