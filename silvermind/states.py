@@ -14,6 +14,9 @@ class BoardState:
 		return self.board
 	
 	def value(self):
+		"""
+		Returns the likelihood of black (-1) or white (1) winning given the current state
+		"""
 		return 1
 
 	def serialize(self):
@@ -37,10 +40,10 @@ class BoardState:
 
 		# Special cases
 		## Castling
-		for location, has_rights in [(0,  board.has_queenside_castling_rights(True)),
-								 	 (7,  board.has_kingside_castling_rights(True)),
-								 	 (63, board.has_kingside_castling_rights(False)),
-								 	 (63 - 7, board.has_queenside_castling_rights(True))]:
+		for location, has_rights in [(0,  self.board.has_queenside_castling_rights(True)),
+								 	 (7,  self.board.has_kingside_castling_rights(True)),
+								 	 (63, self.board.has_kingside_castling_rights(False)),
+								 	 (63 - 7, self.board.has_queenside_castling_rights(False))]:
 			if has_rights:
 				bstate[location] += 1
 
@@ -59,7 +62,7 @@ class BoardState:
 		state[2] = (bstate>>2)&1
 		state[3] = (bstate>>3)&1
 
-		state[4] = board.turn*1.0
+		state[4] = self.board.turn*1.0
 
 		return state
 
