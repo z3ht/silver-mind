@@ -87,6 +87,7 @@ Training Silver Mind:
 
 Should I remove games that end in surrender from the training data?
 	- No because if someone is willing to surrender Silver Mind will have great positioning
+
 ---
 
 Gold Mind:
