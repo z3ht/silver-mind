@@ -48,30 +48,18 @@ Things to ignore:
 
 Each Spot:
  - None
+ - None (En Passant)
  - Pawn
- - Pawn (En Passant)
  - Knight
  - Bishop
  - Rook
+ - Rook (w/ castling)
  - Queen
  - King
 
-Do I need to store en passant or can this just be a node in the move tree?
-	- I do need to keep it because a board can look like en passant is available even when its not
-
-Do I need to store castling info (or can it be a move in the node tree until lost)?
-	- I do need to keep it because a board can look like castling is available without castling actually being available
-
-Do I need to store whose turn it is?
-	- Yes same reason as above two
-
-Do I need to store each colors castling availability?
-	- Yes alternating the state depending on whose turn it is seems like a pain and might not be possible
-
 Number of different game states:
-2 (possible turns) + * (8 * 8 spots * 16 possible states)
-Total: 2 + 2 * 4 + 8 * 8 * 8
-Total: 10 + 8^3
+2 (possible turns) + (8 * 8 spots * 9 possible states)
+Total: 578 possibilities
 
 Note: When castling is available, the corner pieces must be rooks so the rook is not a rook but instead a CASTLING rook. Additionally, when an empty square can be reached through en passant, it is no longer an empty square but instead an EN PASSANT empty square.
 
@@ -82,11 +70,8 @@ Silver Mind Assumptions/Advantages:
 Training Silver Mind:
 	- Load lots of game data
 	- X = board, Y = winner
-	- Get really really good at predicting who wins
+	- Get really really good at predicting who wins given board state
 	- Go to location where player is most likely to win
-
-Should I remove games that end in surrender from the training data?
-	- No because if someone is willing to surrender Silver Mind will have great positioning
 
 ---
 
