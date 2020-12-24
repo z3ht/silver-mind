@@ -4,7 +4,7 @@ import numpy as np
 
 class BoardState:
 
-	def __init__(self, board=None):
+	def __init__(self, board=None, valuator=None):
 		if board == None:
 			self.board = chess.board
 		else:
@@ -13,16 +13,23 @@ class BoardState:
 	def __str__(self):
 		return self.board
 	
-	def value(self):
+	def value(self, valuator=None):
 		"""
 		Returns the likelihood of black (-1) or white (1) winning given the current state
-		"""
-		return 1
+		
+    Parameters
+    ====
+    :param valuator: Callable that takes serialized board as an argument and returns the winning liklihood where (-1) is black and (1) is white (must be provided if self does not contain a valuator)
+    """
+    if valuator is None:
+      if self.valuator is None:
+        raise TypeError("\`valuator\` parameter must be provided")
+      return self.valuator(serialize())
+		return valuator(serialize())
 
 	def serialize(self):
 		"""
-		Returns serialized board in format	
-		 
+		Returns serialized board as numpy array
 		"""
 		bstate = np.zeros(shape=64, dtype=np.uint)
 
