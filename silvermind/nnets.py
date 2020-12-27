@@ -32,7 +32,7 @@ class ChessCNN:
     """
     model = ChessCNN._create_model()
     model.summary()
-    history = model.fit(X, y, batch_size=128, epochs=100, validation_split=0.2, shuffle=True)
+    history = model.fit(X, y, batch_size=1024, epochs=20, validation_split=0.2, shuffle=True)
 
     self.model = model
 
@@ -44,14 +44,14 @@ class ChessCNN:
     """
     if self.model == None:
       raise RuntimeError("Model not trained; nothing to save")
-    self.model.save(save_path)
+    self.model.save(save_path, save_format="tf")
 
   def load(self, load_path):
     """
-    Load model from provided \`load_path\`
+    Load model from provided `load_path`
     """
     self.model = models.load_model(load_path)
-
+  
   def predict(self, serialized_board):
     if self.model is None:
       raise TypeError("Model has not been trained. Call \`self.train()\`")
