@@ -1,43 +1,16 @@
 from keras import models, layers
 import numpy as np
 
-class ChessCNN:
+class ChessNet:
   
   def __init__(self):
     self.model = None
-  
-  @staticmethod
-  def _create_model():
-    model = models.Sequential()
-    model.add(layers.Conv2D(16, (3, 3), activation="relu", input_shape=(5, 8, 8), data_format="channels_first", padding="same"))
-    model.add(layers.Conv2D(16, (3, 3), activation="relu",  data_format="channels_first", padding="same"))
-    model.add(layers.Conv2D(16, (3, 3), strides=(2,2), activation="relu",  data_format="channels_first", padding="same"))
-    model.add(layers.Conv2D(32, (3, 3), activation="relu", padding="same", data_format="channels_first"))
-    model.add(layers.Conv2D(32, (3, 3), activation="relu", padding="same", data_format="channels_first"))
-    model.add(layers.Conv2D(32, (3, 3), strides=(2,2), activation="relu", padding="same", data_format="channels_first"))
-    model.add(layers.Conv2D(64, (2, 2), activation="relu", padding="same", data_format="channels_first"))
-    model.add(layers.Conv2D(64, (2, 2), activation="relu", padding="same", data_format="channels_first"))
-    model.add(layers.Conv2D(64, (2, 2), strides=(2,2), activation="relu", padding="same", data_format="channels_first"))
-    model.add(layers.Conv2D(128, (1, 1), activation="relu", padding="same", data_format="channels_first"))
-    model.add(layers.Conv2D(128, (1, 1), activation="relu", padding="same", data_format="channels_first"))
-    model.add(layers.Conv2D(128, (1, 1), activation="relu", padding="same", data_format="channels_first"))
-    model.add(layers.Flatten())
-    model.add(layers.Dense(128, activation="relu"))
-    model.add(layers.Dense(1, activation="sigmoid"))
-    model.compile(optimizer="Adam", loss="binary_crossentropy", metrics=["acc"])
-    return model
-
+    
   def train(self, X, y):
     """
     Train model with provided `X` and `y`
     """
-    model = ChessCNN._create_model()
-    model.summary()
-    history = model.fit(X, y, batch_size=1024, epochs=20, validation_split=0.2, shuffle=True)
-
-    self.model = model
-
-    return history
+    pass
 
   def save(self, save_path):
     """
@@ -61,3 +34,54 @@ class ChessCNN:
   def __call__(self, serialized_board):
     return self.predict(serialized_board)
 
+class TwitchChess(ChessNet):
+  
+  def _create_model(self):
+    model = models.Sequential()
+    model.add(layers.Conv2D(16, (3, 3), activation="relu", input_shape=(5, 8, 8), data_format="channels_first", padding="same"))
+    model.add(layers.Conv2D(16, (3, 3), activation="relu",  data_format="channels_first", padding="same"))
+    model.add(layers.Conv2D(16, (3, 3), strides=(2,2), activation="relu",  data_format="channels_first", padding="same"))
+    model.add(layers.Conv2D(32, (3, 3), activation="relu", padding="same", data_format="channels_first"))
+    model.add(layers.Conv2D(32, (3, 3), activation="relu", padding="same", data_format="channels_first"))
+    model.add(layers.Conv2D(32, (3, 3), strides=(2,2), activation="relu", padding="same", data_format="channels_first"))
+    model.add(layers.Conv2D(64, (2, 2), activation="relu", padding="same", data_format="channels_first"))
+    model.add(layers.Conv2D(64, (2, 2), activation="relu", padding="same", data_format="channels_first"))
+    model.add(layers.Conv2D(64, (2, 2), strides=(2,2), activation="relu", padding="same", data_format="channels_first"))
+    model.add(layers.Conv2D(128, (1, 1), activation="relu", padding="same", data_format="channels_first"))
+    model.add(layers.Conv2D(128, (1, 1), activation="relu", padding="same", data_format="channels_first"))
+    model.add(layers.Conv2D(128, (1, 1), activation="relu", padding="same", data_format="channels_first"))
+    model.add(layers.Flatten())
+    model.add(layers.Dense(128, activation="relu"))
+    model.add(layers.Dense(1, activation="sigmoid"))
+    model.compile(optimizer="Adam", loss="binary_crossentropy", metrics=["acc"])
+    return model
+
+  def train(self, X, y):
+    model = self._create_model()
+    
+    model.summary()
+    history = model.fit(X, y, batch_size=1024, epochs=20, validation_split=0.2, shuffle=True)
+
+    self.model = model
+
+    return history
+
+class DeepChess(ChessNet):
+    
+  def _create_pos_to_vec(self):
+    pass
+    
+  def _create_model(self):
+    pass
+
+  def train(self, X, y):
+    model = self._create_model()
+    
+    model.summary()
+    history = model.fit(X, y, batch_size=1024, epochs=20, validation_split=0.2, shuffle=True)
+
+    self.model = model
+
+    return history
+        
+    
