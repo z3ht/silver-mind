@@ -56,7 +56,7 @@ Note: When castling is available, the corner pieces must be rooks so the rook is
 
 #### Implementation:
   - Originally I designed Silver Mind similar to how George Hotz designed Twitch Chess because it is a well respected repository. However, Twitch Chess is not an end-to-end deep learning chess engine (despite the fact it says this in the README and presents itself as if it is) but is instead an Alpha-Beta pruning approach (check line 143 of play.py).
-  - So, the final approach is built using the "DeepChess" paper
+  - So, the production version is built using the "DeepChess" paper
 
 ---
 
