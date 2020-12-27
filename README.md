@@ -31,10 +31,6 @@ A few options - `https://en.wikipedia.org/wiki/Board_representation_(computer_ch
 Things to represent:
  - 8x8 Board: Data about each spot (8 possible states)
  - Turn
- - White Kingside castle
- - White Queenside castle
- - Black Kingside castle
- - Black Queenside castle 
 
 Things to ignore:
  - 50-move draw rule (I will not factor this into my model)
