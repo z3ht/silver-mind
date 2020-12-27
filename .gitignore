@@ -2,7 +2,7 @@
 /pgns
 /models
 /dataset
-.ipynb_checkpoints
+**/.ipynb_checkpoints
 __pycache__
 .idea
 docs/research.md
