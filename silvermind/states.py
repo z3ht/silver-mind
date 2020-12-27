@@ -9,6 +9,7 @@ class BoardState:
       self.board = chess.board
     else:
       self.board = board
+    self.valuator = valuator
   
   def __str__(self):
     return self.board
@@ -24,8 +25,8 @@ class BoardState:
     if valuator is None:
       if self.valuator is None:
         raise TypeError("\`valuator\` parameter must be provided")
-      return self.valuator(serialize())
-    return valuator(serialize())
+      return self.valuator(self.serialize())
+    return valuator(self.serialize())
 
   def serialize(self):
     """

@@ -1,4 +1,5 @@
 from keras import models, layers
+import numpy as np
 
 class ChessCNN:
   
@@ -55,7 +56,7 @@ class ChessCNN:
   def predict(self, serialized_board):
     if self.model is None:
       raise TypeError("Model has not been trained. Call \`self.train()\`")
-    return (self.model.predict(serialized_board) * 2) - 2
+    return (self.model.predict(np.array([serialized_board])) * 2) - 2
 
   def __call__(self, serialized_board):
     return self.predict(serialized_board)
