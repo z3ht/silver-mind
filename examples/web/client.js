@@ -2,7 +2,7 @@ const target = "https://localhost:8421";
 
 
 function onPlayerMove (oldPos, newPos) {
-  $.get(`${target}/chess/move?Move=${oldPos}${newPos}`, function(data, status){
+  $.post(`${target}/chess/move?Move=${oldPos}${newPos}`, function(data, status){
     if (data === "false") {
       return;
     }
@@ -12,21 +12,21 @@ function onPlayerMove (oldPos, newPos) {
 
 
 function doComputerMove () {
-  $.get(`${target}/chess/next`, function(data, status){
+  $.post(`${target}/chess/next`, function(data, status){
     board.position(data);
   });
 }
 
 
 function undo () {
-  $.get(`${target}/chess/undo`, function(data, status){
+  $.post(`${target}/chess/undo`, function(data, status){
     board.position(data);
   });
 }
 
 
 function start () {
-  $.get(`${target}/chess/start`, function(data, status){
+  $.post(`${target}/chess/start`, function(data, status){
     board.position('start');
   });
 }
