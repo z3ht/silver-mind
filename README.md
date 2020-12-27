@@ -8,25 +8,20 @@ Designed By: Andrew Darling
 <br>
 
 **Goal:**  
-The goal for creating Silver Mind is to build a Chess AI using reinforcement learning that can beat me 
-(~1025 elo) at chess. A stretch goal is to beat Magnus Carlson at age 18 from the Magnus Carlson app having only trained on games from Garry Kasparov and other GMs. This would be a great accomplishment because Magnus Carlson beat Kasparov at age 16 in 2004 and has only improved since then so Silver Mind would be required to learn a significant amount beyond its training.
+The goal for creating Silver Mind is to build a Chess AI that can beat me (~1025 elo) at chess. A stretch goal is to beat Magnus Carlson at age 18 from the Magnus Carlson app having only trained on games from Garry Kasparov and other GMs. This would be a great accomplishment because Magnus Carlson beat Kasparov at age 16 in 2004 and has only improved since then so Silver Mind would be required to learn a significant amount beyond its training.
 
 **Strategy:**  
 Develop two algorithms: Silver Mind and Gold Mind. Silver Mind will be built from training data and should know possible moves it has available. Gold Mind should be capable of making any move (even illegal ones) but learn which are possible and more so learn which ones will be strong
 
 Silver Mind:
-1) Generate tree of possible moves
-2) Develop an understanding of high and low win percentage states
-    - Minimax: Move to the best possible spot if your opponent makes the best moves possible (respond to worst possible outcome)
-    	- This will probably be difficult because following a move tree in chess will take forever
-    - Bellman Equation: Realize reward as the value of being in the current spot + loss value * being in the next spot
+1) Create deep learning model that predicts white win (1)/black win (-1) probability given a board state
+2) Generate available moves
+3) Move to where the future state will have the highest win probability
 	Representation:
-		- Winning State: 1
+		- White: 1
 		- Draw: 0
-		- Losing State: -1
-	     	- F(one_state_away_from_winning) =  0 (reward for being at current position) + epsilon (loss function) * 1 (F(next_best_state which is winning state))
-3) Move to the best possible state from the available tree of moves
-3) Continue until victory
+		- Black: -1
+4) Continue until victory
 
 Definitions:
 
@@ -63,27 +58,13 @@ Total: 578 possibilities
 
 Note: When castling is available, the corner pieces must be rooks so the rook is not a rook but instead a CASTLING rook. Additionally, when an empty square can be reached through en passant, it is no longer an empty square but instead an EN PASSANT empty square.
 
-Silver Mind Assumptions/Advantages:
-	- Provide Silver Mind with possible moves
-	- Provide Silver Mind with LOTS of training data
-
-Training Silver Mind:
-	- Load lots of game data
-	- X = board, Y = winner
-	- Get really really good at predicting who wins given board state
-	- Go to location where player is most likely to win
+#### Implementation:
+  - Originally I designed Silver Mind similar to how George Hotz designed Twitch Chess because it is a well respected repository. However, Twitch Chess is not an end-to-end deep learning chess engine (despite the fact it says this in the README and presents itself as if it is) but is instead an Alpha-Beta pruning approach (check line 143 of play.py).
+  - So, the final approach is built using the "DeepChess" paper
 
 ---
 
-Gold Mind:
-1) Reinforcement learning algorithm that competes against silver mind
-2) Develop an understanding of good and bad moves
-	- I will need to do a lot of research to make this happen
-	- I assume I will need to develop an understanding of the value of everything on the board
-	- I will want to maximize my position and minimize my opponent's 
-1) Make the best possible moves
-
-**Silver Mind is HEAVILY inspired by Twitch Chess by George Hotz. I would not have been able to complete the AI with such elegance without his work guiding me**
+Gold Mind (WIP)
 
 <br>
 ---
