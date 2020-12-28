@@ -1,8 +1,15 @@
 from flask import Flask, request
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
+import os
+import sys
+import chess
 
+sys.path.append("../..")
+
+from silvermind import states, nnets
 
 board = None
+valuator = None
 app = Flask(__name__)
 CORS(app)
 
@@ -21,31 +28,45 @@ def computer_move(cur_board):
   return best_move
 
 
-@app.route('/chess/next', methods=["POST"])
-def continue():
+@app.after_request
+def after(response):
+  headers = response.headers
+  headers["Access-Control-Allow-Origin"] = "*"
+  return response
+
+
+@app.route('/chess/next')
+def do_computer_move():
   comp_move = computer_move(board)
   board.push(comp_move)
   return board.fen()
 
 
-@app.route('/chess/undo', methods=["POST"])
+@app.route('/chess/undo')
 def undo():
   board.pop()
   return board.fen()
 
 
-@app.route('/chess/move', methods=["POST"])
+@app.route('/chess/move', methods=["POST", "GET"])
 def make_move():
-  move = request.args["Move"]
-  if move not in board.legal_moves:
-    return "false"
-  board.push(move)
+  new_pos = request.args["New_Position"]
+  for move in board.legal_moves:
+    board.push(move)
+    print(board.fen())
+    if board.fen().split(" ")[0] == new_pos:
+      break
+    board.pop()
   return board.fen()
 
 
-@app.route('/chess/start', methods=["POST"])
+@app.route('/chess/start')
 def start():
+  global board, valuator
   board = chess.Board()
+  valuator = nnets.TwitchChess()
+  valuator.load("../../models/tiny_tc.tf")
+  return board.fen()
 
 
 if __name__ == "__main__":

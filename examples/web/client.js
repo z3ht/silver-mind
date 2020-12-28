@@ -1,40 +1,38 @@
 const target = "https://localhost:8421";
 
 
-function onPlayerMove (oldPos, newPos) {
-  $.post(`${target}/chess/move?Move=${oldPos}${newPos}`, function(data, status){
-    if (data === "false") {
-      return;
-    }
+function onPlayerMove (source, t, piece, newPos, oldPos, orientation) {
+  const fen_result = ChessBoard.objToFen(newPos);
+  $.post(`${target}/chess/move?New_Position=${fen_result}`, function(data, status){
     board.position(data);
   });
 }
 
 
 function doComputerMove () {
-  $.post(`${target}/chess/next`, function(data, status){
+  $.get(`${target}/chess/next`, function(data, status){
     board.position(data);
   });
 }
 
 
 function undo () {
-  $.post(`${target}/chess/undo`, function(data, status){
+  $.get(`${target}/chess/undo`, function(data, status){
     board.position(data);
   });
 }
 
 
 function start () {
-  $.post(`${target}/chess/start`, function(data, status){
-    board.position('start');
+  $.get(`${target}/chess/start`, function(data, status){
+    board.position(data);
   });
 }
 
 
 var config = {
   draggable: true,
-  onMoveEnd: onPlayerMove
+  onDrop: onPlayerMove
 }
 
 var board = ChessBoard('board', config);
