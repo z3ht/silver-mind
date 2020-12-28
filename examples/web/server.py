@@ -50,13 +50,10 @@ def undo():
 
 @app.route('/chess/move', methods=["POST", "GET"])
 def make_move():
-  new_pos = request.args["New_Position"]
-  for move in board.legal_moves:
+  move = request.args["Move"]
+  move = chess.Move.from_uci(move)
+  if move in board.legal_moves:
     board.push(move)
-    print(board.fen())
-    if board.fen().split(" ")[0] == new_pos:
-      break
-    board.pop()
   return board.fen()
 
 

@@ -1,9 +1,8 @@
 const target = "https://localhost:8421";
 
 
-function onPlayerMove (source, t, piece, newPos, oldPos, orientation) {
-  const fen_result = ChessBoard.objToFen(newPos);
-  $.post(`${target}/chess/move?New_Position=${fen_result}`, function(data, status){
+function onPlayerMove (s, t, piece, newPos, oldPos, orientation) {
+  $.post(`${target}/chess/move?Move=${s}${t}`, function(data, status){
     board.position(data);
   });
 }
