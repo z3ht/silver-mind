@@ -1,4 +1,4 @@
-const target = "https://localhost:8421";
+const target = "https://localhost:8422";
 
 
 function onPlayerMove (s, t, piece, newPos, oldPos, orientation) {
