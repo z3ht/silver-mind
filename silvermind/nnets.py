@@ -9,39 +9,65 @@ class ChessNet:
 
     def __init__(self):
         self.model = None
+        self.state = None
 
     def train(self, X, y):
         """
-    Train model with provided `X` and `y`
-    """
+        Train model with provided `X` and `y`
+        """
         pass
 
     def save(self, save_path):
         """
-    Save model to provided `save_path`
-    """
-        if self.model == None:
+        Save model to provided `save_path`
+        """
+        if self.model is None:
             raise RuntimeError("Model not trained; nothing to save")
         self.model.save(save_path, save_format="tf")
 
     def load(self, load_path):
         """
-    Load model from provided `load_path`
-    """
+        Load model from provided `load_path`
+        """
         self.model = models.load_model(load_path)
+
+    def predict(self, *args, **kwargs):
+        pass
+
+    def __call__(self, *args, **kwargs):
+        pass
+
+
+class ValueNet(ChessNet):
 
     def predict(self, serialized_board):
         if self.model is None:
             raise TypeError("Model has not been trained. Call `self.train()`")
         return (self.model.predict(np.array([serialized_board])) * 2) - 2
 
-    def __call__(self, serialized_board):
-        return self.predict(serialized_board)
+    def __call__(self, target_board):
+        return self.predict(target_board)
 
 
-class TwitchChess(ChessNet):
+class ComparisonNet(ChessNet):
 
-    def _create_model(self):
+    def predict(self, serialized_board, best_board):
+        if self.model is None:
+            raise TypeError("Model has not been trained. Call `self.train()`")
+
+        if best_board is None:
+            raise TypeError("The DeepChess network requires `best_board`")
+
+        return (self.model.predict(np.array([serialized_board, best_board])) * 2) - 2
+
+    def __call__(self, target_board, best_board):
+        return self.predict(target_board, best_board)
+
+
+class TwitchChess(ValueNet):
+
+    @staticmethod
+    def _create_model():
         model = models.Sequential()
         model.add(layers.Conv2D(16, (3, 3), activation="relu", input_shape=(5, 8, 8), data_format="channels_first",
                                 padding="same"))
@@ -76,16 +102,16 @@ class TwitchChess(ChessNet):
         return history
 
 
-class DeepChess(ChessNet):
+class DeepChess(ComparisonNet):
 
     def __init__(self):
         super().__init__()
-        self.dbn_layers = [320, 100, 100, 100]
+        self.dbn_layers = [320, 200, 100, 100]
         self.top = [100, 100, 2]
         self.dbn_batch_size = 512
-        self.dbn_epochs = 200
+        self.dbn_epochs = 5    # This could be much larger
         self.batch_size = 512
-        self.epochs = 1000
+        self.epochs = 10
 
     @staticmethod
     def _random_samples(X, y, num_samples=800000):
@@ -116,10 +142,10 @@ class DeepChess(ChessNet):
             train_model.add(layers.Dense(self.dbn_layers[i], activation="relu", input_dim=self.dbn_layers[i - 1]))
             train_model.add(layers.Dense(self.dbn_layers[i - 1], activation="relu"))
             train_model.compile(optimizer='adam', loss='mse', metrics=['mae'])
-            train_model.fit(X, X, batch_size=self.dbn_batch_size, epochs=self.dbn_epochs, verbose=False)
+            train_model.fit(X, X, batch_size=self.dbn_batch_size, epochs=self.dbn_epochs)
 
-            X = K.function([train_model.input], [train_model.layers[0].output])([X])[0]     # Retrieve next X
             weights = train_model.layers[0].get_weights()
+            X = K.function([train_model.input], [train_model.layers[0].output])([X])[0]     # Retrieve next X
 
             model.add(layers.Dense(self.dbn_layers[i], activation="relu", trainable=False, input_dim=self.dbn_layers[i-1]))
             model.layers[i-1].set_weights(weights)
@@ -151,13 +177,20 @@ class DeepChess(ChessNet):
     def train(self, X, y, base_refresh=False, base_model_path="models/dbn.tf", num_samples=800000):
         X = X.copy().reshape(X.shape[0], 8*8*5)
 
-        model = self._create_model(X=X, base_refresh=base_refresh, base_model_path=base_model_path)
+        validation_size = 100000
+
+        model = self._create_model(X=X[:-validation_size], base_refresh=base_refresh, base_model_path=base_model_path)
         model.summary()
 
         X, y = self._random_samples(X=X, y=y, num_samples=num_samples)
 
-        history = model.fit(X, y, use_multiprocessing=True, epochs=self.epochs, batch_size=self.batch_size, shuffle=True)
+        history = model.fit(
+            [X[0][:-validation_size], X[1][:-validation_size]], y[:-validation_size],
+            validation_data=([X[0][-validation_size:], X[1][-validation_size:]], y[-validation_size:]),
+            use_multiprocessing=True, epochs=self.epochs,  batch_size=self.batch_size, shuffle=True
+        )
 
         self.model = model
 
         return history
+
