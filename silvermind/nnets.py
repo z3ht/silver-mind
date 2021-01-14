@@ -31,12 +31,6 @@ class ChessNet:
         """
         self.model = models.load_model(load_path)
 
-    def predict(self, *args, **kwargs):
-        pass
-
-    def __call__(self, *args, **kwargs):
-        pass
-
 
 class ValueNet(ChessNet):
 
