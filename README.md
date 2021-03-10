@@ -55,8 +55,7 @@ Total: 578 possibilities
 Note: When castling is available, the corner pieces must be rooks so the rook is not a rook but instead a CASTLING rook. Additionally, when an empty square can be reached through en passant, it is no longer an empty square but instead an EN PASSANT empty square.
 
 #### Implementation:
-  - Originally I designed Silver Mind similar to how George Hotz designed Twitch Chess because it is a well respected repository. However, Twitch Chess is not an end-to-end deep learning chess engine (despite the fact it says this in the README and presents itself as if it is) but is instead an Alpha-Beta pruning approach (check line 143 of play.py).
-  - So, the production version is built using the "DeepChess" paper
+  - Based off the "DeepChess" paper
 
 ---
 
