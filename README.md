@@ -1,5 +1,5 @@
 # Silver Mind  
-**Reinforcement learning chess AI**  
+**Deep learning chess AI**  
 Designed By: Andrew Darling
 
 ![404](https://i.imgur.com/f0RThee.jpg)  
