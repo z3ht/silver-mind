@@ -1,6 +1,6 @@
 # Silver Mind  
 **Deep learning chess AI**  
-Designed By: Andrew Darling
+Implemented By: Andrew Darling
 
 ![404](https://i.imgur.com/f0RThee.jpg)  
 --- *GangstaRaptor by: arbsbuhpuh (https://imgur.com/gallery/d6vxE1f)* ---
